@@ -1,4 +1,7 @@
 const physicalDataModel = require("../models/physicalDataModel");
+const { io } = require('../websocket/websocketServer');
+
+
 
 // Crear datos físicos para un usuario
 const createPhysicalData = async (req, res) => {
@@ -126,10 +129,10 @@ const addData = async (req, res) => {
 const getDataWithDynamicSorting = async (req, res) => {
   try {
     // Obtener el ID de usuario, tipo de colección, dirección de orden y tipo de datos desde la solicitud
-    const { userId, collectionType, orderByDirection, typeData } = req.params;
+    const { userId, collectionType, orderByTipo,orderByDirection, typeData } = req.params;
 
     // Verificar si se proporcionaron todos los datos necesarios
-    if (!userId || !collectionType || !orderByDirection || !typeData) {
+    if (!userId || !collectionType|| !orderByTipo || !orderByDirection || !typeData) {
       return res.status(400).json({
         error: "ID de usuario, tipo de colección, dirección de orden y tipo de datos requeridos",
       });
@@ -139,6 +142,7 @@ const getDataWithDynamicSorting = async (req, res) => {
     const data = await physicalDataModel.getDataWithDynamicSorting(
       userId,
       collectionType,
+      orderByTipo,
       orderByDirection,
       typeData
     );
@@ -173,6 +177,7 @@ const getLatestPhysicalData = async (req, res) => {
       coleccion,
       tipo
     );
+
 
     return res.status(200).json(physicalData); // Devolver directamente physicalData
   } catch (error) {

@@ -96,7 +96,7 @@ const addData = async (nick, coleccion, data) => {
 };
 
 
-const getDataWithDynamicSorting = async (userId, collectionType, orderByDirection, typeData) => {
+const getDataWithDynamicSorting = async (userId, collectionType, orderByTipo,orderByDirection, typeData) => {
   try {
     // Referencia a la colección "Datos-Fisicos" del usuario y tipo de colección especificados
     const dataCollectionRef = collection(db, "Datos-Fisicos", userId, collectionType);
@@ -105,7 +105,7 @@ const getDataWithDynamicSorting = async (userId, collectionType, orderByDirectio
     const querySnapshot = await getDocs(
       query(
         dataCollectionRef,
-        orderBy("fecha", orderByDirection),
+        orderBy(orderByTipo, orderByDirection),
         where("tipo", "==", typeData) // Filtro por el tipo especificado
       )
     );
